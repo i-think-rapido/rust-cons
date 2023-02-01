@@ -45,7 +45,7 @@ impl<T> Cons<T> {
     }
 }
 impl<T: Clone> Cons<T> {
-    pub fn delete_after(&mut self) {
+    pub fn delete_next(&mut self) {
         if self.next().is_root() {
             return
         }
@@ -61,7 +61,7 @@ impl<T: Clone> Cons<T> {
             self.implementation = Rc::new(ConsImpl::Element(t.clone(), next));
         }
     }
-    pub fn insert_after(&mut self, item: T) {
+    pub fn insert_next(&mut self, item: T) {
         if self.next().is_root() {
             return
         }
@@ -124,12 +124,12 @@ mod test {
     }
 
     #[test]
-    fn delete_after() {
+    fn delete_next() {
         let mut list = Cons::default().append(1).append(2).append(3);
 
         let removed_branch = list.next();
 
-        list.delete_after();
+        list.delete_next();
 
         assert_eq!(list.get(), Some(&3));
         assert_eq!(list.next().get(), Some(&1));
@@ -144,10 +144,10 @@ mod test {
     }
 
     #[test]
-    fn insert_after() {
+    fn insert_next() {
         let mut list = Cons::default().append(1).append(2).append(3);
 
-        list.insert_after(4);
+        list.insert_next(4);
 
         assert_eq!(list.get(), Some(&3));
         assert_eq!(list.next().get(), Some(&4));
